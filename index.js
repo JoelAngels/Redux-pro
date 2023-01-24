@@ -6,14 +6,16 @@ const bindActionCreators = redux.bindActionCreators;
 
 const CAKE_ORDERED = "CAKE_ORDERED";
 const CAKE_RESTOCKED = "CAKE_RESTOCKED";
-
+const ICECREAM_ORDERED = "ICECREAM_ORDERED";
+const ICECREAM_RESTOCKED = "ICECREAM_RESTOCKED";
 //lets create our action which is an object with a type property
 //Action creator is a function that returns an action
 
 function orderCake() {
   return {
+    //type property
     type: CAKE_ORDERED,
-    payload: 1,
+    payload: 1, //Payload is the data that your reducer will use to update the state
   };
 }
 
@@ -24,14 +26,37 @@ function restockCAKE(qty = 1) {
   };
 }
 
+function orderIceCream(qty = 1) {
+  return {
+    type: ICECREAM_ORDERED,
+    payload: qty,
+  };
+}
+
+function restockIceCream(qty = 1) {
+  return {
+    type: ICECREAM_RESTOCKED,
+    payload: qty,
+  };
+}
+
 //state of our application but we need to create a store that will hold this object
-const initialState = {
+// const initialState = {
+//   numOfCakes: 10,
+//   numOfIceCreams: 20,
+// };
+
+const initialCakeState = {
   numOfCakes: 10,
+};
+
+const initialIceCreamState = {
+  numOfIceams: 20,
 };
 
 //(previousState, action) => newState;
 
-const reducer = (state = initialState, action) => {
+const cakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
     case CAKE_ORDERED:
       return {
@@ -39,14 +64,38 @@ const reducer = (state = initialState, action) => {
         ...state,
         numOfCakes: state.numOfCakes - 1,
       };
-
+    //Restocking a cake after it has been bought from the shopkeeper above
     case CAKE_RESTOCKED:
       return {
         ...state,
         //Payload is the data that your reducer will use to update the state
         numOfCakes: state.numOfCakes + action.payload,
       };
-    //if their is an action which we havent accounted for simply return the state at is(default)
+    //When ice cream is ordered we minus one ice cream from shopkeeper
+
+    default:
+      return state;
+  }
+};
+//===================================IceCream Reducer ========================================
+
+const iceCreamReducer = (state = initialIceCreamState, action) => {
+  switch (action.type) {
+    //When ice cream is ordered we minus one ice cream from shopkeeper
+    case ICECREAM_ORDERED:
+      return {
+        ...state,
+        //Payload is the data that your reducer will use to update the state
+        numOfIceCreams: state.numOfIceCreams - 1,
+      };
+
+    case ICECREAM_RESTOCKED:
+      return {
+        ...state,
+        //Payload is the data that your reducer will use to update the state
+        numOfIceCreams: state.numOfIceCreams + action.payload,
+      };
+
     default:
       return state;
   }
@@ -73,11 +122,16 @@ store.dispatch(orderCake());
 // store.dispatch(restockCAKE(3));
 
 //Turns an object whose values are action creators, into an object with the same keys, but with every action creator wrapped into a dispatch call so they may be invoked directly.
-const actions = bindActionCreators({ orderCake, restockCAKE }, store.dispatch);
+const actions = bindActionCreators(
+  { orderCake, restockCAKE, orderIceCream, restockIceCream },
+  store.dispatch
+);
 actions.orderCake();
 actions.orderCake();
-actions.orderCake();
-actions.restockCAKE(3);
+actions.restockCAKE(3); //increases restock from 7 back to 10
+actions.orderIceCream();
+actions.orderIceCream();
+actions.restockIceCream(2);
 
 unsubscribe();
 
@@ -149,3 +203,5 @@ https://www.youtube.com/@codewithvishal2968/videos
 https://youtu.be/b88Z5POQBwI
 https://youtu.be/HyZzCHgG3AY
 */
+
+//try to understand how it works =>
