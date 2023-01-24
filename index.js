@@ -1,6 +1,7 @@
 const redux = require("redux");
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
+const combineReducers = redux.combineReducers;
 
 //Define a string constants that indicated the type of the action,
 
@@ -51,7 +52,7 @@ const initialCakeState = {
 };
 
 const initialIceCreamState = {
-  numOfIceams: 20,
+  numOfIceCreams: 20,
 };
 
 //(previousState, action) => newState;
@@ -100,9 +101,15 @@ const iceCreamReducer = (state = initialIceCreamState, action) => {
       return state;
   }
 };
+
+const rootReducer = combineReducers({
+  cake: cakeReducer,
+  iceCream: iceCreamReducer,
+});
+
 //Resposiblity No 1 => Redux holding the application state through reducer down below
 
-const store = createStore(reducer);
+const store = createStore(rootReducer);
 //let us now get state
 
 console.log("Initial State", store.getState()); //this gives us the initial state of our app
@@ -133,6 +140,7 @@ actions.orderIceCream();
 actions.orderIceCream();
 actions.restockIceCream(2);
 
+//The subscriptions are snapshotted just before every dispatch() call
 unsubscribe();
 
 //=last lets unsubscribe from the store by calling the function retuned by the subscribe method==
