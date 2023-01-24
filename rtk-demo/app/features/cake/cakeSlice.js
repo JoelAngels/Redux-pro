@@ -1,4 +1,4 @@
-const createSlice = require("@reduxjs/toolkit").createSlice();
+const createSlice = require("@reduxjs/toolkit").createSlice;
 
 //initial state for the cake slice
 
@@ -11,6 +11,7 @@ const cakeSlice = createSlice({
   initialState,
 
   reducers: {
+    //perform direct mutations on the state === immer used under the hood
     ordered: (state) => {
       state.numOfCakes--;
     },
@@ -21,5 +22,5 @@ const cakeSlice = createSlice({
   },
 });
 
-module.exports = cakeSlice.reducer;
-module.exports.cakeActions = cakeSlice.actions;
+module.exports = cakeSlice.reducer; //generate acton
+module.exports.cakeActions = cakeSlice.actions; ////generate reducers
