@@ -2,6 +2,12 @@ const redux = require("redux");
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
 const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
+
+//redux logger
+
+const reduxLogger = require("redux-logger");
+const logger = reduxLogger.createLogger();
 
 //Define a string constants that indicated the type of the action,
 
@@ -109,16 +115,14 @@ const rootReducer = combineReducers({
 
 //Resposiblity No 1 => Redux holding the application state through reducer down below
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(logger));
 //let us now get state
 
 console.log("Initial State", store.getState()); //this gives us the initial state of our app
 
 //subscribe to changes in the store (4RESPONSIBLITY)
 
-const unsubscribe = store.subscribe(() =>
-  console.log("updated state", store.getState())
-);
+const unsubscribe = store.subscribe(() => {});
 
 //DISPATCH AN ACTION MEANING, WE UPDATE THE STATE, its accepts an action as it parameter
 
@@ -213,3 +217,10 @@ https://youtu.be/HyZzCHgG3AY
 */
 
 //try to understand how it works =>
+
+/*==================MiddleWare===========================
+Is the suggested way to extend Redux with custom functionality
+Provides a third party extension point between dispatching an action, and the moment it reaches the reducer
+
+use Middleware for loggin , crash reporting and performing asynchronous tasks etc
+*/
