@@ -1,5 +1,11 @@
 const redux = require("redux");
+const thunkMiddleware = require("redux-thunk").default;
 const createStore = redux.createStore;
+const applyMiddleware = redux.applyMiddleware;
+const axios = require("axios");
+
+const reduxLogger = require("redux-logger");
+const logger = reduxLogger.createLogger();
 
 //Define STATE , ACTIONS AND REDUCERS
 
@@ -63,4 +69,29 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(reducer);
+//DEFINE ASYNC ACTION CREATOR which returns an action but thunkmiddleware returns a function instead of an action object
+
+const fetchUsers = () => {
+  return function (dispatch) {
+    dispatch(fetchUsersRequest());
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      //response.data is the users
+      .then((response) => {
+        const users = response.data.map((user) => user.id); //for each user, just the user.id
+        //when we get the response, lets despatch
+
+        dispatch(fetchUsersSuccess(users));
+      })
+      .catch((error) => {
+        dispatch(fetchUsersFailure(error.message));
+      });
+  };
+};
+
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+store.subscribe(() => {
+  console.log(store.getState());
+});
+
+store.dispatch(fetchUsers());
