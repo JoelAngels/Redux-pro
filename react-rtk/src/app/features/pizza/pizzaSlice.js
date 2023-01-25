@@ -1,4 +1,4 @@
-const createSlice = require("@reduxjs/toolkit").createSlice;
+import { createSlice } from "@reduxjs/toolkit";
 
 //define the state
 
@@ -21,5 +21,5 @@ const pizzaSlice = createSlice({
   },
 });
 
-module.exports = pizzaSlice.reducer; //export reducer
-module.exports.pizzaActions = pizzaSlice.actions;
+export default pizzaSlice.reducer; //export reducer
+export const { ordered, restocked } = pizzaSlice.actions;
