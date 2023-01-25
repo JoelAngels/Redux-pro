@@ -1,9 +1,6 @@
-const createSlice = require("@reduxjs/toolkit").createSlice;
-const axios = require("axios");
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 //redux toolkit provides a create async thunk function to implement creation and dispatching of async actions
-
-const createAsyncThunk = require("@reduxjs/toolkit").createAsyncThunk;
 
 //initial state for the slice
 
@@ -18,7 +15,7 @@ const initialState = {
 //createAsyncThunk accepts an action type as its first argument as the all back as the 2 argument
 
 //async action
-const fetchUsers = createAsyncThunk("user/fetchUsers", () => {
+export const fetchUsers = createAsyncThunk("user/fetchUsers", () => {
   return axios
     .get("https://jsonplaceholder.typicode.com/users")
     .then((response) => response.data.map((user) => user.id));
@@ -48,7 +45,7 @@ const userSlice = createSlice({
   },
 });
 
-module.exports = userSlice.reducer;
+export default userSlice.reducer;
 module.exports.fetchUsers = fetchUsers;
 
 //we have successfully hanles async logic with redux toolkit

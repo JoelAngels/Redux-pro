@@ -1,14 +1,14 @@
 //create store and attach the reducer
 
-const configureStore = require("@reduxjs/toolkit").configureStore;
-const { getDefaultMiddleware } = require("@reduxjs/toolkit");
-// const reduxLogger = require("redux-logger");
-const cakeReducer = require("./features/cake/cakeSlice");
-const icecreamReducer = require("./features/icecream/icecreamSlice");
+import { configureStore } from "@reduxjs/toolkit";
 
-const pizzaReducer = require("./features/pizza/pizzaSlice");
+// const { getDefaultMiddleware } = require("@reduxjs/toolkit");
 
-const userReducer = require("./features/user/userSlice");
+import cakeReducer from ("./features/cake/cakeSlice")
+import pizzaReducer from ("./features/pizza/pizzaSlice")
+import icecreamReducer from ("./features/icecream/icecreamSlice")
+import userReducer from ("./features/user/userSlice")
+
 
 // const logger = reduxLogger.createLogger();
 const store = configureStore({
@@ -21,4 +21,4 @@ const store = configureStore({
   //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger), //The concat() method is used to merge two or more arrays.
 });
 
-module.exports = store;
+export default store;
