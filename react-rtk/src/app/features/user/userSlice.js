@@ -17,10 +17,14 @@ const initialState = {
 //createAsyncThunk accepts an action type as its first argument as the all back as the 2 argument
 
 //async action
-export const fetchUsers = createAsyncThunk("user/fetchUsers", () => {
-  return axios
-    .get("https://jsonplaceholder.typicode.com/users")
-    .then((response) => response.data.map((user) => user.id));
+
+//createAsyncthunk dispatches the lifecycle methods of a promise as actions
+
+export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
+  const response = await axios.get(
+    "https://jsonplaceholder.typicode.com/users"
+  );
+  return response.data;
 }); //returns a promise
 
 //create the slice
