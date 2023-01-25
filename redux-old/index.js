@@ -103,6 +103,13 @@ const iceCreamReducer = (state = initialIceCreamState, action) => {
         numOfIceCreams: state.numOfIceCreams + action.payload,
       };
 
+    case CAKE_ORDERED:
+      return {
+        ...state,
+        //Payload is the data that your reducer will use to update the state
+        numOfIceCreams: state.numOfIceCreams - 1,
+      };
+
     default:
       return state;
   }
@@ -115,14 +122,16 @@ const rootReducer = combineReducers({
 
 //Resposiblity No 1 => Redux holding the application state through reducer down below
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer);
 //let us now get state
 
 console.log("Initial State", store.getState()); //this gives us the initial state of our app
 
 //subscribe to changes in the store (4RESPONSIBLITY)
 
-const unsubscribe = store.subscribe(() => {});
+const unsubscribe = store.subscribe(() => {
+  console.log("updated state", store.getState());
+});
 
 //DISPATCH AN ACTION MEANING, WE UPDATE THE STATE, its accepts an action as it parameter
 
